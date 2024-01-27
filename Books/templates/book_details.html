@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+
+            <div class="flex w-full transform text-left text-base transition mx-auto max-w-7xl p-2 sm:px-6 lg:p-8">
+                <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                    
+                    <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
+                        <div class="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5 shadow-md border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg" alt="Two each of gray, white, and black shirts arranged on table." class="object-cover object-center">
+                        </div>
+                        <div class="sm:col-span-8 lg:col-span-7 shadow-md border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
+                            <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">{{ book.title }}</h2>
+                            
+                            <section aria-labelledby="information-heading" class="mt-2">
+                                <h3 id="information-heading" class="sr-only">Product information</h3>
+                                
+                                <p class="text-2xl text-gray-900">{{ book.borrowing_price }}</p>
+                                
+                                <!-- Reviews -->
+                                <div class="mt-6">
+                                    <h4 class="sr-only">Reviews</h4>
+                                    <div class="flex items-center">
+                                        <div class="flex items-center">
+                                            <!-- Active: "text-gray-900", Default: "text-gray-200" -->
+                                            <svg class="text-gray-900 h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                                            </svg>
+                                            <svg class="text-gray-200 h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <p class="sr-only">3.9 out of 5 stars</p>
+                                        <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">117 reviews</a>
+                                    </div>
+                                </div>
+                            </section>
+  
+                            <section aria-labelledby="options-heading" class="mt-10">
+                                <h3 id="options-heading" class="sr-only">Product options</h3>
+                                <p class="my-4"> {{ book.description }}</p>
+
+                                <form method="post" class="">
+                                    {% csrf_token %} {% for hidden_field in buy_form.hidden_fields %} {{ hidden_field.errors }} {{ hidden_field }} {% endfor %} 
+                                    <input class="hidden" name="buy_form" id="{{ field.id_for_label }}" type="{{ field.widget_type }}">
+                                    
+                                    <div class="col-span-full">
+                                        <label for="about" class="block text-sm font-medium leading-6 text-gray-900">{{ buy_form.quantity.label }} </label>
+                                        <div class="mt-2">
+                                            <input value='1' class="shadow appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="{{ buy_form.quantity.name }}" id="{{ buy_form.quantity.id_for_label }}" type="{{ buy_form.quantity.widget_type }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-span-full">
+                                        <label for="about" class="hidden block text-sm font-medium leading-6 text-gray-900">{{ buy_form.amount.label }} </label>
+                                        <div class="mt-2">
+                                            <input value='{{ book.borrowing_price }}'  class="hidden shadow appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="{{ buy_form.amount.name }}" id="{{ buy_form.amount.id_for_label }}" type="{{ buy_form.amount.widget_type }}">
+                                        </div>
+                                    </div>
+                                    {% if field.errors %} {% for error in field.errors %}
+                                    <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                                    {% endfor %} {% endif %} 
+                                    
+                                    
+                                     <button type="submit" class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to bag</button>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="w-full mx-auto max-w-7xl px-10  ">
+
+            {% comment %} comment {% endcomment %}
+            {% if isReturned %}
+                <div class="">
+                    <form method="post" class="shadow-md border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
+                        {% csrf_token %} {% for hidden_field in form.hidden_fields %} {{ hidden_field.errors }} {{ hidden_field }} {% endfor %} 
+                        <input class="hidden" name="comment_form" id="{{ field.id_for_label }}" type="{{ field.widget_type }}">
+                        {% for field in form.visible_fields %}
+                        <div class="col-span-full">
+                            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">{{ field.name }} </label>
+                            <div class="mt-2">
+                                <input class="shadow appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="{{ field.name }}" id="{{ field.id_for_label }}" type="{{ field.widget_type }}">
+                                {% comment %} <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder='{{ field.value }}' type="{{ field.widget_type }}" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea> {% endcomment %}
+                            </div>
+                            <p class="mt-3 text-sm leading-6 text-gray-600">Write a comment about the book </p>
+                        </div>
+                        {% if field.errors %} {% for error in field.errors %}
+                        <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                        {% endfor %} {% endif %} {% endfor %}
+                        <button class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+            {% comment %} comment  {% endcomment %}
+            <div class='mt-10'>
+                <ul role="list" class="divide-y divide-gray-100  bg-white px-4 pb-8 pt-14 shadow-2xl">
+                    <p class="m-1">Get the book to make a comment</p>
+                    {% for review in reviews %}
+                        <li class="flex justify-between gap-x-6 py-5">
+                            <div class="flex min-w-0 gap-x-4">
+                                <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                <div class="min-w-0 flex-auto">
+                                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ review.user.user.username }}</p>
+                                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{ review.user.user.email }}</p>
+                                </div>
+                            </div>
+                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                <p class="text-sm leading-6 text-gray-900">Rating: {{ review.rating }}</p>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">{{ review.comment }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>  
+            </div>
+
+        </div>
+  
+  {% endblock content %}
+
+
+ 

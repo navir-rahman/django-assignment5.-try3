@@ -9,6 +9,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.conf import settings
+from django.core.mail import send_mail
 
 class UserRegistrationView(FormView):
     template_name = 'signup.html'
@@ -20,7 +22,12 @@ class UserRegistrationView(FormView):
         user = form.save()
 
         login(self.request, user)
-        print(user)
+
+        subject = 'Deposit'
+        message = f'Hi {self.request.user.username}, you have successfully created a new account'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [self.request.user.email, ]
+        send_mail( subject, message, email_from, recipient_list )
         return super().form_valid(form) 
     
 
@@ -35,7 +42,7 @@ def custom_logout(request):
 
 
 class UserUpdateView(View):
-    template_name = 'signup.html'
+    template_name = 'profile.html'
     
     def get(self, request):
         form =UserUpdateForm(instance=request.user)
@@ -54,3 +61,15 @@ class UserUpdateView(View):
 class ChangePasswordForm(PasswordChangeView):
     template_name = "password_reset.html"
     success_url = reverse_lazy('profile')
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        subject = 'password reset'
+        message = f' you have successfully created a new account'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [self.request.user.email, ]
+        send_mail( subject, message, email_from, recipient_list )
+
+        return response
+    def form_invalid(self, form):
+        return render(self.request, self.template_name)
+

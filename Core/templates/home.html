@@ -1,4 +1,137 @@
-{% extends "base.html" %}
-{% block content %}
-home
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<div class="">
+  <div class="bg-white">
+    <div>
+      <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24"
+        >
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900">
+            New Arrivals
+          </h1>
+
+
+        </div>
+
+        <section aria-labelledby="products-heading" class="pb-24 pt-6">
+          <h2 id="products-heading" class="sr-only">Products</h2>
+
+          <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+            <!-- Filters -->
+            <div class="hidden lg:block">
+              <div class="border-b border-gray-200 py-6">
+                <h3 class="-my-3 flow-root">
+                  <!-- Expand/collapse section button -->
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
+                    aria-controls="filter-section-2"
+                    aria-expanded="false"
+                  >
+                    <span class="font-medium text-gray-900">Category </span>
+                    <span class="ml-6 flex items-center">
+                      <!-- Expand icon, show/hide based on section open state. -->
+                      <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                        />
+                      </svg>
+                      <!-- Collapse icon, show/hide based on section open state. -->
+                      <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </h3>
+                <!-- Filter section, show/hide based on section state. -->
+                <div class="pt-6" id="filter-section-2">
+                  <div class="space-y-4">
+                      <a href='{% url "home" %}'> 
+                        <p class="ml-3 text-sm text-gray-600">All</p>
+                      </a>
+                    {% for cat in categories %}
+                    <div class="flex items-center">
+                        <a href='{% url "category" cat %}'> 
+                          <p class="ml-3 text-sm text-gray-600">{{ cat }}</p>
+                        </a>
+                        </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product grid -->
+            <div class="lg:col-span-3">
+              <div class="bg-white">
+                <div
+                  class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
+                >
+                  <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+                    Customers also purchased
+                  </h2>
+
+                  <div
+                    class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+                  >
+                    {% for book in books %}
+
+                    <div class="group relative">
+                        <div
+                          class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-40"
+                        >
+                          <img
+                            src="{{ book.image.url }}"
+                            alt="{{ book.image.url }}"
+                            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                          />
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                          <div>
+                            <h3 class="text-sm text-gray-700">
+                              <a href="{% url "view_book" book.id %}">
+                                <span
+                                  aria-hidden="true"
+                                  class="absolute inset-0"
+                                ></span>
+                                {{ book.title }}
+                              </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                              Category: {{ book.category }}
+                            </p>
+                          </div>
+                          <p class="text-sm font-medium text-gray-900">
+                            {{ book.borrowing_price }}
+                          </p>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

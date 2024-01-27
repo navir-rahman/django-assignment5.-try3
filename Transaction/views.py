@@ -7,6 +7,9 @@ from .forms import DepositForm
 from UserAccount.models import UserAccount
 from django.urls import reverse_lazy
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 class DepositView(View):
     template_name = 'transfer.html'
     # success_url = reverse_lazy('home')
@@ -23,7 +26,14 @@ class DepositView(View):
             # account = UserAccount.objects.filter(account=user)
             user.balance += amount
             user.save()
+            subject = 'Deposit'
+            message = f'Hi {request.user.username} you have successfully Deposited {amount} tk'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.user.email, ]
+            send_mail( subject, message, email_from, recipient_list )
+
         return render(request, self.template_name, {'form': form, 'title': 'Deposit'})
+    
 class WithdrawView(View):
     template_name = 'transfer.html'
     # success_url = reverse_lazy('home')
@@ -40,6 +50,12 @@ class WithdrawView(View):
             # account = UserAccount.objects.filter(account=user)
             user.balance -= amount
             user.save()
+            subject = 'Withdrawn'
+            message = f'Hi {request.user.username} you have successfully withdrawn {amount} tk'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.user.email, ]
+            send_mail( subject, message, email_from, recipient_list )
+            
         return render(request, self.template_name, {'form': form, 'title': 'Deposit'})
 
 
