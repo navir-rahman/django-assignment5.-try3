@@ -13,7 +13,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='book_category')
     description = models.TextField()
-    image = models.ImageField(upload_to='books/media', null=True, blank=True)
+    image = models.ImageField(upload_to='books/media/', null=True, blank=True)
     borrowing_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):

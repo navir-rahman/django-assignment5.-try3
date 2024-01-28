@@ -23,7 +23,7 @@ class UserRegistrationView(FormView):
 
         login(self.request, user)
 
-        subject = 'Deposit'
+        subject = 'Sign Up'
         message = f'Hi {self.request.user.username}, you have successfully created a new account'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.request.user.email, ]
