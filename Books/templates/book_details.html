@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% block content %}{% load static %}
 
-            <div class="flex w-full transform text-left text-base transition mx-auto max-w-7xl p-2 sm:px-6 lg:p-8">
+<div class="flex w-full transform text-left text-base transition mx-auto max-w-7xl p-2 sm:px-6 lg:p-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
+                            <p class="font-bold">Error!</p>
+                            <p {% if message.tags %} class="{{ message.tags }}"{% endif %} class="block sm:inline">{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                     
                     <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
@@ -60,7 +68,13 @@
                                     {% endfor %} {% endif %} 
                                     
                                     
-                                     <button type="submit" class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to bag</button>
+                                     <button type="submit" class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        {% if request.user.is_authenticated %}
+                                            Add to bag
+                                        {% else %}
+                                            you must login to get the book
+                                        {% endif %}
+                                        </button>
                                 </form>
                             </section>
                         </div>
