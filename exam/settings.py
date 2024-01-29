@@ -76,14 +76,14 @@ WSGI_APPLICATION = 'exam.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://librarydatabase_xoo0_user:A0uLne375xURrYfqbKLqJtR7Piq7275B@dpg-cmroht821fec739sq3q0-a.oregon-postgres.render.com/librarydatabase_xoo0',
-        # default='postgres://library_i708_user:K9NcEnTJYDZNMvWVRYbKiR6w0mWFftBI@dpg-cmqll1n109ks73fdgam0-a.oregon-postgres.render.com/library_i708',
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgres://librarydatabase_xoo0_user:A0uLne375xURrYfqbKLqJtR7Piq7275B@dpg-cmroht821fec739sq3q0-a.oregon-postgres.render.com/librarydatabase_xoo0',
+#         # default='postgres://library_i708_user:K9NcEnTJYDZNMvWVRYbKiR6w0mWFftBI@dpg-cmqll1n109ks73fdgam0-a.oregon-postgres.render.com/library_i708',
         
 
-    )
-}
+#     )
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -94,12 +94,12 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -144,8 +144,8 @@ STATIC_ROOT = BASE_DIR / 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+# MEDIA_URL = "/media/books/"
 
 
 # email settings
