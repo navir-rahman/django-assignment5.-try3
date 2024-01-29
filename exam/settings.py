@@ -78,7 +78,9 @@ WSGI_APPLICATION = 'exam.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://library_i708_user:K9NcEnTJYDZNMvWVRYbKiR6w0mWFftBI@dpg-cmqll1n109ks73fdgam0-a.oregon-postgres.render.com/library_i708',
+        default='postgres://librarydatabase_xoo0_user:A0uLne375xURrYfqbKLqJtR7Piq7275B@dpg-cmroht821fec739sq3q0-a.oregon-postgres.render.com/librarydatabase_xoo0',
+        # default='postgres://library_i708_user:K9NcEnTJYDZNMvWVRYbKiR6w0mWFftBI@dpg-cmqll1n109ks73fdgam0-a.oregon-postgres.render.com/library_i708',
+        
 
     )
 }
