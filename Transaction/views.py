@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.conf import settings
 from django.core.mail import send_mail
 
+from django.contrib.auth.models import User
 class DepositView(View):
     template_name = 'transfer.html'
     # success_url = reverse_lazy('home')
@@ -21,17 +22,19 @@ class DepositView(View):
     def post(self, request):
         form = DepositForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data['amount']
             user = request.user.account
-            # account = UserAccount.objects.filter(account=user)
-            user.balance += amount
-            user.save()
-            subject = 'Deposit'
-            message = f'Hi {request.user.username} you have successfully Deposited {amount} tk'
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [request.user.email, ]
-            send_mail( subject, message, email_from, recipient_list )
-
+            if user.DoesNotExist:
+                amount = form.cleaned_data['amount']
+                # account = UserAccount.objects.get(user=request.user)
+                user.balance += amount
+                user.save()
+                subject = 'Deposit'
+                message = f'Hi {request.user.username} you have successfully Deposited {amount} tk'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [request.user.email, ]
+                send_mail( subject, message, email_from, recipient_list )
+            else:
+                messages.error(request, 'user not found')
         return render(request, self.template_name, {'form': form, 'title': 'Deposit'})
     
 class WithdrawView(View):
@@ -41,22 +44,29 @@ class WithdrawView(View):
     model = Transaction
     def get(self, request):
         form = DepositForm()
-        return render(request, self.template_name, {'form': form, 'title': 'Deposit'})
+        return render(request, self.template_name, {'form': form, 'title': 'Withdraw'})
     def post(self, request):
         form = DepositForm(request.POST)
         if form.is_valid():
             amount = form.cleaned_data['amount']
+
             user = request.user.account
-            # account = UserAccount.objects.filter(account=user)
-            user.balance -= amount
-            user.save()
-            subject = 'Withdrawn'
-            message = f'Hi {request.user.username} you have successfully withdrawn {amount} tk'
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [request.user.email, ]
-            send_mail( subject, message, email_from, recipient_list )
-            
-        return render(request, self.template_name, {'form': form, 'title': 'Deposit'})
+            if user.DoesNotExist:
+                # account = UserAccount.objects.filter(account=user)
+                if user.balance <= amount:
+                    messages.error(request, 'user not found')
+                else:
+                    user.balance -= amount
+                    user.save()
+                    subject = 'Withdrawn'
+                    message = f'Hi {request.user.username} you have successfully withdrawn {amount} tk'
+                    email_from = settings.EMAIL_HOST_USER
+                    recipient_list = [request.user.email, ]
+                    send_mail( subject, message, email_from, recipient_list )
+            else:
+                messages.error(request, 'user not found')
+                
+        return render(request, self.template_name, {'form': form, 'title': 'Withdraw'})
 
 
 # class TransferMoneyView(View):
